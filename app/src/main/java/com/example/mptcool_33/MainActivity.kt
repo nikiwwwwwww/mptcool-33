@@ -3,7 +3,6 @@ package com.example.mptcool_33
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -28,6 +27,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Icon
 import androidx.compose.material.RadioButton
 import androidx.compose.material.RadioButtonDefaults
 import androidx.compose.material.Text
@@ -41,8 +41,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -71,6 +69,8 @@ class MainActivity : ComponentActivity() {
                 buttonExitFromAcc()
                 buttonDeleteAcc()
                 menu1()
+                menu2()
+
             }
         }
     }
@@ -714,7 +714,14 @@ private fun buttonDeleteAcc()
                     Text(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(paddingValues = PaddingValues( top = 12.dp, start = 13.dp,bottom = 12.dp, end = 39.dp))
+                            .padding(
+                                paddingValues = PaddingValues(
+                                    top = 12.dp,
+                                    start = 13.dp,
+                                    bottom = 12.dp,
+                                    end = 39.dp
+                                )
+                            )
                             .wrapContentWidth(Alignment.CenterHorizontally),
 
                         text = "Вы точно хотите удалить аккаунт?",
@@ -826,6 +833,42 @@ private fun buttonDeleteAcc()
     }
 }
 
+//иетод для меню
+@Composable
+fun RowItem(text: String, imageResId: Int, onClick: () -> Unit) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick),
+        horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.Start),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Icon(
+            painter = painterResource(id = imageResId),
+            contentDescription = "image description",
+            //contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .size(45.dp)
+                .padding(end = 4.dp),
+            colorResource(id = R.color.white)
+            //colorFilter = ColorFilter.tint(Color.White),
+        )
+
+        Text(
+            text = text,
+            style = TextStyle(
+                fontSize = 14.sp,
+                fontFamily = fontFamily,
+                fontWeight = FontWeight(500),
+                color = Color(0xFFE6E6E6),
+            ),
+            modifier = Modifier
+                .weight(1f)
+        )
+    }
+}
+
+
 //pop up меню 2 строчка 4 модель
 @Composable
 private fun menu1() {
@@ -857,13 +900,10 @@ private fun menu1() {
                         .padding(16.dp),
                     state = rememberLazyListState()
                 ) {
-                    var textext = "Отключить уведомления"
                     items(1) { index ->
-
-                        RowItem(textext, R.drawable.notifications_off_foreground,
+                        RowItem( "Отключить уведомления", R.drawable.notifications_off_foreground,
                             onClick = {
                             // Обработка клика
-                                textext = "asdasd"
                         })
                         Spacer(modifier = Modifier.height(4.dp))
                         Spacer(modifier = Modifier
@@ -904,35 +944,95 @@ private fun menu1() {
 }
 
 @Composable
-fun RowItem(text: String, imageResId: Int, onClick: () -> Unit) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable(onClick = onClick),
-        horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.Start),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Image(
-            painter = painterResource(id = imageResId),
-            contentDescription = "image description",
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .size(40.dp)
-                .padding(end = 8.dp),
-            colorFilter = ColorFilter.tint(Color.White),
-        )
+private fun menu2() {
+    var isDialogVisible by remember { mutableStateOf(false) }
 
-        Text(
-            text = text,
-            style = TextStyle(
-                fontSize = 14.sp,
-                fontFamily = fontFamily,
-                fontWeight = FontWeight(500),
-                color = Color(0xFFE6E6E6),
-            ),
-            modifier = Modifier
-                .weight(1f) // Занимает оставшееся пространство
-        )
+    Button(onClick = { isDialogVisible = true }) {
+        Text(text = "меню 2")
+    }
+
+    //pop up
+    if (isDialogVisible) {
+        Dialog(
+            onDismissRequest = { isDialogVisible = false }
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth(0.9f)
+                    .fillMaxHeight(0.25f)
+                    .background(
+                        color = Color(0xff333333),
+                        shape = RoundedCornerShape(size = 12.dp),
+                    )
+            ) {
+
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight()
+                        .padding(16.dp),
+                    state = rememberLazyListState()
+                ) {
+                    items(1) { index ->
+                        RowItem("Очистить историю", R.drawable.notifications_off_foreground,
+                            onClick = {
+                                // Обработка клика
+                            })
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Spacer(modifier = Modifier
+                            .width(320.dp)
+                            .height(1.dp)
+                            .background(color = Color(0x26999999)))
+                        Spacer(modifier = Modifier.height(4.dp))
+                        RowItem("Отключить уведомления", R.drawable.notifications_off_foreground,
+                            onClick = {
+                                // Обработка клика
+                                //isDialogVisible = false
+                            })
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Spacer(modifier = Modifier
+                            .width(320.dp)
+                            .height(1.dp)
+                            .background(color = Color(0x26999999)))
+                        Spacer(modifier = Modifier.height(4.dp))
+                        RowItem("Разблокировать", R.drawable.send_icon_foreground,
+                            onClick = {
+                                // Обработка клика
+                            })
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Spacer(modifier = Modifier
+                            .width(320.dp)
+                            .height(1.dp)
+                            .background(color = Color(0x26999999)))
+                        Spacer(modifier = Modifier.height(4.dp))
+                        RowItem("Пожаловаться", R.drawable.complain_icon,
+                            onClick = {
+                                // Обработка клика
+                            })
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Spacer(modifier = Modifier
+                            .width(320.dp)
+                            .height(1.dp)
+                            .background(color = Color(0x26999999)))
+                        Spacer(modifier = Modifier.height(4.dp))
+                        RowItem("Изменить оформление чата", R.drawable.brush_icon,
+                            onClick = {
+                                // Обработка клика
+                            })
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Spacer(modifier = Modifier
+                            .width(320.dp)
+                            .height(1.dp)
+                            .background(color = Color(0x26999999)))
+                        Spacer(modifier = Modifier.height(4.dp))
+                        RowItem("Поиск", R.drawable.search_icon,
+                            onClick = {
+                                // Обработка клика
+                            })
+                    }
+                }
+            }
+        }
     }
 }
 
