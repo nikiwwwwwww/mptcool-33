@@ -832,7 +832,7 @@ private fun menu1() {
     var isDialogVisible by remember { mutableStateOf(false) }
 
     Button(onClick = { isDialogVisible = true }) {
-        Text(text = "удалить")
+        Text(text = "меню 1")
     }
 
     //pop up
@@ -845,7 +845,7 @@ private fun menu1() {
                     .fillMaxWidth(0.85f)
                     .fillMaxHeight(0.25f)
                     .background(
-                        color = colorResource(id = R.color.SvetloBlack),
+                        color = Color(0xff333333),
                         shape = RoundedCornerShape(size = 12.dp),
                     )
             ) {
