@@ -27,16 +27,25 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.RadioButton
 import androidx.compose.material.RadioButtonDefaults
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -56,6 +65,7 @@ import androidx.compose.ui.window.Dialog
 
 
 class MainActivity : ComponentActivity() {
+    @OptIn(ExperimentalMaterialApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -65,16 +75,21 @@ class MainActivity : ComponentActivity() {
                     .padding(16.dp),
                 verticalArrangement = Arrangement.Center
             ) {
+                //Spacer(modifier = Modifier.height(500.dp))
                 buttonPrichinajalobu()
                 buttonExitFromAcc()
                 buttonDeleteAcc()
                 menu1()
                 menu2()
 
+                BottomSheet1()
+                BottomSheetWithList()
             }
         }
     }
 }
+
+
 
 //для шрифта
 val provider = GoogleFont.Provider(
@@ -1032,6 +1047,311 @@ private fun menu2() {
                     }
                 }
             }
+        }
+    }
+}
+
+//bottomsheet
+@OptIn(ExperimentalMaterial3Api::class)
+@ExperimentalMaterialApi
+@Composable
+fun BottomSheet1() {
+
+    val sheetState = rememberModalBottomSheetState()
+    var isSheetOpen by rememberSaveable {
+        mutableStateOf(false)
+    }
+
+    Box(
+
+    ) {
+        Button(
+            onClick = {
+                isSheetOpen = true
+            }) {
+            Text(text = "Bottom Sheet 1")
+        }
+    }
+
+    if (isSheetOpen) {
+        ModalBottomSheet(
+            scrimColor = Color(0xFF1A1A1A),
+            containerColor = Color(0xFF1A1A1A),
+            sheetState = sheetState,
+            onDismissRequest = { isSheetOpen = false },
+           )
+        {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Color(0xFF1A1A1A))
+                    .height(230.dp)
+                    .padding(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.Top),
+                ) {
+                Button(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(50.dp)
+                    ,
+                    colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFF333333)),
+                    shape = RoundedCornerShape(size = 8.dp),
+                    onClick = {
+                        // Действия при нажатии на "Скопировать ссылку"
+                    }
+                ) {
+
+                    Icon(
+                        painter = painterResource(id = R.drawable.link_icon_foreground),
+                        contentDescription = "image description",
+                        //contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .size(50.dp)
+                            //.padding(end = 2.dp)
+                                ,
+                        colorResource(id = R.color.white)
+                        //colorFilter = ColorFilter.tint(Color.White),
+                    )
+                    Text(
+                        text = "Скопировать ссылку",
+                        style = TextStyle(
+                            fontSize = 14.sp,
+                            lineHeight = 20.3.sp,
+                            fontFamily = fontFamily,
+                            fontWeight = FontWeight(500),
+                            color = Color(0xFFE6E6E6),
+
+                            textAlign = TextAlign.Center,
+                        )
+                    )
+                }
+
+                Button(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(50.dp)
+                    ,
+                    colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFF333333)),
+                    shape = RoundedCornerShape(size = 8.dp),
+                    onClick = {
+                        // Действия при нажатии на "Скопировать ссылку"
+                    }
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.complain_icon),
+                        contentDescription = "image description",
+                        //contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .size(50.dp)
+                        //.padding(end = 2.dp)
+                        ,
+                        colorResource(id = R.color.white)
+                        //colorFilter = ColorFilter.tint(Color.White),
+                    )
+                    Text("Пожаловаться",
+                        style = TextStyle(
+                            fontSize = 14.sp,
+                            lineHeight = 20.3.sp,
+                            fontFamily = fontFamily,
+                            fontWeight = FontWeight(500),
+                            color = Color(0xFFE6E6E6),
+
+                            textAlign = TextAlign.Center,
+                        ))
+                }
+
+                Button(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(50.dp)
+                    ,
+                    colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFF333333)),
+                    shape = RoundedCornerShape(size = 8.dp),
+                    onClick = {
+                        // Действия при нажатии на "Скопировать ссылку"
+                    }
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.visability_off_foreground),
+                        contentDescription = "image description",
+                        //contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .size(50.dp)
+                        //.padding(end = 2.dp)
+                        ,
+                        colorResource(id = R.color.white)
+                        //colorFilter = ColorFilter.tint(Color.White),
+                    )
+
+                    Text("Скрыть",
+                        style = TextStyle(
+                        fontSize = 14.sp,
+                        lineHeight = 20.3.sp,
+                        fontFamily = fontFamily,
+                        fontWeight = FontWeight(500),
+                        color = Color(0xFFE6E6E6),
+
+                        textAlign = TextAlign.Center,
+                    ))
+                }
+            }
+
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun BottomSheetWithList() {
+    val sheetState = rememberModalBottomSheetState()
+    var isSheetOpen by rememberSaveable {
+        mutableStateOf(false)
+    }
+
+    Box(
+
+    ) {
+        Button(
+            onClick = {
+                isSheetOpen = true
+            }
+        ) {
+            Text(text = "Bottom Sheet 2")
+        }
+    }
+
+    if (isSheetOpen) {
+        ModalBottomSheet(
+            sheetState = sheetState,
+            scrimColor = Color(0xFF1A1A1A),
+            containerColor = Color(0xFF1A1A1A),
+            onDismissRequest = { isSheetOpen = false },
+            modifier = Modifier.background(Color(0xFF1A1A1A))
+        ) {
+            Column(
+                modifier = Modifier
+                    //.fillMaxHeight()
+                    .background(Color(0xFF1A1A1A))
+                    .fillMaxWidth()
+                    .height(370.dp)
+                    .padding(16.dp)
+            ) {
+                LazyColumn(modifier = Modifier
+                    .height(256.dp)) {
+                    items (1){ item ->
+                        ListItemWithButton(item = "элемент 1")
+                        ListItemWithButton(item = "элемент 2")
+                        ListItemWithButton(item = "элемент 3")
+                        ListItemWithButton(item = "элемент 4")
+                        ListItemWithButton(item = "элемент 5")
+                    }
+                }
+                Spacer(modifier = Modifier.height(16.dp))
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight(),
+                    //.padding(PaddingValues(top = 16.dp)),
+                    horizontalArrangement = Arrangement.SpaceAround,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+//кнопка отменить
+                    TextButton(
+                        modifier = Modifier
+                            .size(157.dp, 48.dp)
+                            //.fillMaxHeight()
+                            //.fillMaxWidth()
+                            //.padding(horizontal = 8.dp)
+                            .align(Alignment.CenterVertically),
+                        onClick = {
+
+                        }
+                    ) {
+                        Text(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .fillMaxHeight()
+                            //.padding(horizontal = 8.dp)
+                            ,
+                            color = colorResource(id = R.color.white),
+                            text = "Отменить",
+                            style = TextStyle(
+                                fontSize = 12.sp,
+                                fontFamily = fontFamily,
+                                fontWeight = FontWeight(600),
+                                color = Color(0xFFE6E6E6)
+                            ),
+                            textAlign = TextAlign.Center
+                        )
+                    }
+//кнопка удалить
+                    Button(
+                        colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFFD20C34)),
+                        modifier = Modifier
+                            .size(157.dp, 48.dp)
+                            //.fillMaxHeight()
+                            //.fillMaxWidth()
+                            //.padding(horizontal = 8.dp)
+                            .align(Alignment.CenterVertically),
+                        onClick = {
+
+                        }
+                    ) {
+                        Text(
+                            modifier = Modifier
+                                .fillMaxSize()
+                            //.padding(horizontal = 8.dp)
+                            ,
+                            color = colorResource(id = R.color.white),
+                            text = "Удалить",
+                            style = TextStyle(
+                                fontSize = 12.sp,
+                                fontFamily = fontFamily,
+                                fontWeight = FontWeight(600),
+                                color = Color(0xFFE6E6E6),
+                                textAlign = TextAlign.Center
+                            ),
+                            textAlign = TextAlign.Center
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun ListItemWithButton(item: String) {
+    var isChecked by remember { mutableStateOf(false) }
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            //.padding(vertical = 8.dp)
+        ,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Text(text = item,
+            style = TextStyle(
+                fontSize = 14.sp,
+                lineHeight = 20.3.sp,
+                fontFamily = fontFamily,
+                fontWeight = FontWeight(500),
+                color = Color(0xFFE6E6E6),
+
+                textAlign = TextAlign.Center,
+            ))
+        IconButton(
+            onClick = {
+                isChecked = !isChecked
+            }
+        ) {
+            Icon(
+                imageVector = if (isChecked) Icons.Default.Check else Icons.Default.Add,
+                contentDescription = "Button icon",
+                tint = Color.White
+            )
         }
     }
 }
